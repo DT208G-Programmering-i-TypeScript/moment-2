@@ -1,0 +1,12 @@
+{
+    "name": "todo-app",
+    "version": "1.0.0",
+    "description": "En todo applikation i TypeScript med LocalStorage",
+    "scripts": {
+      "build": "tsc"
+    },
+    "devDependencies": {
+      "typescript": "^5.0.0"
+    }
+  }
+  

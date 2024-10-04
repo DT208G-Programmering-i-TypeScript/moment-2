@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+      "target": "ES6",                         
+      "module": "ES6",                         
+      "rootDir": "./src",                       // TypeScript-källkod finns här
+      "outDir": "./dist",                       // JavaScript-output hamnar här
+      "strict": true,                           
+      "esModuleInterop": true,                  
+      "forceConsistentCasingInFileNames": true, 
+      "moduleResolution": "node",               
+      "skipLibCheck": true,                     
+      "allowJs": false,                         // Tillåt bara .ts-filer
+      "noEmitOnError": true                     // Generera inga filer om det finns fel
+    },
+    "include": ["src/**/*"]
+  }
+  

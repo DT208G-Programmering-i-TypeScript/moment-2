@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-do list</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-tasks"></i> To-do list</h1>
+    </header>
+    <main>
+        <section id="add-todo">
+            <h2>Lägg till ny uppgift</h2>
+            <form id="todo-form">
+                <input type="text" id="task" placeholder="Skriv din uppgift..." required>
+                <input type="number" id="priority" min="1" max="3" placeholder="Prioritet (1-3)" required>
+                <button type="submit"><i class="fas fa-plus"></i> Lägg till</button>
+            </form>
+            <div id="error"></div>
+        </section>
+        <section id="todo-list-section">
+            <h2>Mina uppgifter</h2>
+            <ul id="todo-list"></ul>
+        </section>
+    </main>
+    <div class="modal" id="edit-modal">
+        <div class="modal-content">
+            <h2>Redigera uppgift</h2>
+            <form id="edit-form">
+                <input type="text" id="edit-task" required>
+                <input type="number" id="edit-priority" min="1" max="3" required>
+                <button type="submit"><i class="fas fa-save"></i> Spara</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

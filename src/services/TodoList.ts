@@ -1,4 +1,4 @@
-import { Todo } from "../models/Todo";
+import { Todo } from "../models/todo.js";
 
 export class TodoList {
   private todos: Todo[] = [];

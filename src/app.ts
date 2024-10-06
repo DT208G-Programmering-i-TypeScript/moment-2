@@ -1,5 +1,5 @@
-import { Todo } from './models/Todo';
-import { TodoList } from './services/TodoList';
+import { Todo } from './models/todo.js';
+import { TodoList } from './services/TodoList.js';
 
 const todoListInstance = new TodoList();
 

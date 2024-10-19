@@ -1,0 +1,160 @@
+* Bakgrundsfärger och typsnitt */
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container för todo-listan */
+  .container {
+    max-width: 600px;
+    margin: 50px auto;
+    background-color: #81d747dd;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Rubrik */
+  h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+  }
+  
+  /* Formulärstil */
+  form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+  
+  form input[type='text'] {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2196f3;
+    outline: none;
+    font-size: 1em;
+    transition: border-color 0.3s;
+  }
+  
+  form input[type='text']:focus {
+    border-bottom-color: #e91e63;
+  }
+  
+  form select {
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-bottom: 2px solid #2196f3;
+    outline: none;
+    font-size: 1em;
+    background: transparent;
+    transition: border-color 0.3s;
+  }
+  
+  form select:focus {
+    border-bottom-color: #e91e63;
+  }
+  
+  form button {
+    margin-left: 10px;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, #2196f3, #e91e63);
+    border: none;
+    border-radius: 50px;
+    color: #fff;
+    font-size: 1em;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  form button:hover {
+    transform: scale(1.1);
+  }
+  
+  /* Felmeddelande */
+  .error-message {
+    color: #e91e63;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Lista över todos */
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  ul li {
+    background-color: #fff;
+    margin-bottom: 15px;
+    padding: 15px 20px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s, background-color 0.3s;
+  }
+  
+  ul li:hover {
+    transform: translateX(10px);
+    background-color: #f1f1f1;
+  }
+  
+  /* Checkbox-stil */
+  ul li input[type='checkbox'] {
+    margin-right: 15px;
+    width: 20px;
+    height: 20px;
+    accent-color: #2196f3;
+    cursor: pointer;
+  }
+  
+  /* Uppgiftstext */
+  ul li span {
+    flex: 1;
+    font-size: 1.2em;
+    color: #333;
+  }
+  
+  /* Prioritetsindikator */
+  ul li .priority {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-left: 15px;
+  }
+  
+  ul li .priority.high {
+    background-color: #e91e63;
+  }
+  
+  ul li .priority.medium {
+    background-color: #ff9800;
+  }
+  
+  ul li .priority.low {
+    background-color: #8bc34a;
+  }
+  
+  /* Animationer */
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+  
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  ul li {
+    animation: fadeIn 0.5s ease-in-out;
+  }

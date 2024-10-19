@@ -1,1 +1,57 @@
-<p>todo-list works!</p>
+<!-- definerar TodoListComponent HTML strukturen -->
+<div class="container">
+    <h1>✨ Att göra-lista ✨</h1>
+    <!-- formulär för att lägga till en ny uppgift -->
+    <form (submit)="addTodo(); $event.preventDefault();">
+        <input [(ngModel)]="newTask" name="task" placeholder="Ny uppgift" required type="text" />
+        <!-- dropdown för att välja prioritet -->
+        <select [(ngModel)]="newPriority" name="priority">
+            <option [value]="1">1 (Hög)</option>
+            <option [value]="2">2 (Medium)</option>
+            <option [value]="3">3 (Låg)</option>
+        </select>
+        <!-- knapp för att lägga till en ny uppgift -->
+        <button type="submit">➕</button>
+    </form>
+    <!-- visar felmeddelande om det finns något fel -->
+    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+    <ul>
+        <!-- loopar igenom todos och skapar en lista med varje uppgift -->
+        <li *ngFor="let todo of todos; let i = index">
+            <!-- checkbox för att markera en uppgift som klar -->
+            <input type="checkbox" [checked]="todo.completed" (change)="markCompleted(i)" />
+            <!-- Visa redigeringsfält om denna uppgift är under redigering -->
+            <div *ngIf="editingIndex === i; else displayTodo">
+                <!-- input fält för att uppdatera uppgiften -->
+                <input [(ngModel)]="editTask" name="editTask" placeholder="Uppdatera uppgift" />
+                <!-- dropdown för att välja prioritet -->
+                <select [(ngModel)]="editPriority" name="editPriority">
+                    <option [value]="1">1 (Hög)</option>
+                    <option [value]="2">2 (Medium)</option>
+                    <option [value]="3">3 (Låg)</option>
+                </select>
+                <!-- knapp för att spara redigerade uppgifter -->
+                <button (click)="saveEdit()">💾</button>
+                <!-- knapp för att avbryta redigering -->
+                <button (click)="cancelEdit()">❌</button>
+            </div>
+
+            <!-- Om inte under redigering, visa uppgiften normalt -->
+            <ng-template #displayTodo>
+                <span [class.completed]="todo.completed">
+                    {{ todo.task }}
+                </span>
+                <!-- definerar klasser för olika prioriteter -->
+                <div class="priority" [ngClass]="{
+                    high: todo.priority === 1,
+                    medium: todo.priority === 2,
+                    low: todo.priority === 3
+                }"></div>
+                <!-- knapp för att starta redigering -->
+                <button (click)="startEditing(i)">✏️</button>
+                <!-- knapp för att ta bort en uppgift -->
+                <button (click)="removeTodo(i)">🗑️</button>
+            </ng-template>
+        </li>
+    </ul>
+</div>

@@ -18,12 +18,12 @@ export class TodoListComponent {
   // definerar todoList variabeln
   todoList: TodoList;
   newTask: string = '';
-  newPriority: number = 1;
+  newPriority: number | null = null;
   errorMessage: string = '';
   editingIndex: number | null = null;
   editTask: string = '';
   editPriority: number = 1;
-
+  successMessage: string = '';
 
   constructor() {
     this.todoList = new TodoList();
@@ -31,18 +31,25 @@ export class TodoListComponent {
 
   // definerar addTodo metoden
   addTodo(): void {
+    if (!this.newTask.trim() || this.newPriority === null) {
+      this.errorMessage = 'Felaktiga inmatade värden. Kontrollera att uppgiften inte är tom och att prioriteringen är mellan 1 och 3.';
+      this.successMessage = '';
+      return;
+    }
+
     const success = this.todoList.addTodo(this.newTask, this.newPriority);
     if (!success) {
-      // om addTodo metoden inte lyckas, sätt errorMessage till en felmeddelande
-      this.errorMessage =
-        'Felaktiga inmatade värden. Kontrollera att uppgiften inte är tom och att prioriteringen är mellan 1 och 3.';
+      this.errorMessage = 'Felaktiga inmatade värden. Kontrollera att uppgiften inte är tom och att prioriteringen är mellan 1 och 3.';
+      this.successMessage = '';
     } else {
-      // om addTodo metoden lyckas, sätt errorMessage till en tom sträng och rensa inputfältet
       this.errorMessage = '';
+      this.successMessage = 'Uppgift tillagd!';
       this.newTask = '';
-      this.newPriority = 1;
+      this.newPriority = null;
+      setTimeout(() => (this.successMessage = ''), 2000);
     }
   }
+
   // definerar startEditing metoden
   startEditing(index: number): void {
     this.editingIndex = index;
@@ -54,21 +61,21 @@ export class TodoListComponent {
   // definerar saveEdit metoden
   saveEdit(): void {
     if (this.editingIndex !== null) {
-      // om editingIndex inte är null, uppdatera todoList
       const success = this.todoList.updateTodo(
         this.editingIndex,
         this.editTask,
         this.editPriority
       );
       if (!success) {
-        // om updateTodo metoden inte lyckas, sätt errorMessage till ett felmeddelande
-        this.errorMessage =
-          'Felaktiga värden vid redigering. Kontrollera att uppgiften inte är tom och att prioriteringen är mellan 1 och 3.';
+        this.errorMessage = 'Felaktiga värden vid redigering. Kontrollera att uppgiften inte är tom och att prioriteringen är mellan 1 och 3.';
+        this.successMessage = '';
       } else {
         this.errorMessage = '';
+        this.successMessage = 'Uppgift uppdaterad!';
         this.editingIndex = null;
         this.editTask = '';
         this.editPriority = 1;
+        setTimeout(() => (this.successMessage = ''), 2000);
       }
     }
   }
@@ -84,9 +91,17 @@ export class TodoListComponent {
 
   // definerar removeTodo metoden
   removeTodo(index: number): void {
-    this.todoList.removeTodo(index);
+    if (confirm('Är du säker på att du vill ta bort denna uppgift?')) {
+      // sätter removing till true för att indikera att uppgiften ska tas bort
+      (this.todos[index] as any).removing = true;
+      setTimeout(() => {
+        this.todoList.removeTodo(index);
+        // rensar removing flaggan
+        this.successMessage = 'Uppgift borttagen!';
+        setTimeout(() => (this.successMessage = ''), 2000);
+      }, 300);
+    }
   }
-  
 
   // definerar markCompleted metoden
   markCompleted(index: number): void {

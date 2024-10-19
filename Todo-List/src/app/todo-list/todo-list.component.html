@@ -1,20 +1,49 @@
 <!-- definerar TodoListComponent HTML strukturen -->
 <div class="container">
     <h1>✨ Att göra-lista ✨</h1>
-    <!-- formulär för att lägga till en ny uppgift -->
-    <form (submit)="addTodo(); $event.preventDefault();">
-        <input [(ngModel)]="newTask" name="task" placeholder="Ny uppgift" required type="text" />
+    <!-- formulär för att lägga till en ny uppgift med validering -->
+    <form #todoForm="ngForm" (ngSubmit)="addTodo()">
+        <input
+            [(ngModel)]="newTask"
+            name="task"
+            placeholder="Ny uppgift"
+            required
+            #taskInput="ngModel"
+        />
         <!-- dropdown för att välja prioritet -->
-        <select [(ngModel)]="newPriority" name="priority">
-            <option [value]="1">1 (Hög)</option>
-            <option [value]="2">2 (Medium)</option>
-            <option [value]="3">3 (Låg)</option>
+        <select
+            [(ngModel)]="newPriority"
+            name="priority"
+            required
+            #priorityInput="ngModel"
+        >
+            <option [ngValue]="null">Välj prioritet</option>
+            <option [ngValue]="1">1 (Hög)</option>
+            <option [ngValue]="2">2 (Medium)</option>
+            <option [ngValue]="3">3 (Låg)</option>
         </select>
         <!-- knapp för att lägga till en ny uppgift -->
-        <button type="submit">➕</button>
+        <button type="submit" [disabled]="todoForm.invalid">➕</button>
     </form>
-    <!-- visar felmeddelande om det finns något fel -->
-    <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
+    <!-- Visa felmeddelanden -->
+    <div *ngIf="errorMessage" class="error-message">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Visa valideringsmeddelanden -->
+    <div *ngIf="(taskInput.invalid && taskInput.touched) || (priorityInput.invalid && priorityInput.touched)" class="error-message">
+        <div *ngIf="taskInput.invalid && taskInput.touched">
+            Uppgiften får inte vara tom.
+        </div>
+        <div *ngIf="priorityInput.invalid && priorityInput.touched">
+            Du måste välja en prioritet.
+        </div>
+    </div>
+
+    <div *ngIf="successMessage" class="success-message">
+        {{ successMessage }}
+    </div>
     <ul>
         <!-- loopar igenom todos och skapar en lista med varje uppgift -->
         <li *ngFor="let todo of todos; let i = index">
@@ -22,18 +51,39 @@
             <input type="checkbox" [checked]="todo.completed" (change)="markCompleted(i)" />
             <!-- Visa redigeringsfält om denna uppgift är under redigering -->
             <div *ngIf="editingIndex === i; else displayTodo">
-                <!-- input fält för att uppdatera uppgiften -->
-                <input [(ngModel)]="editTask" name="editTask" placeholder="Uppdatera uppgift" />
+                <!-- input fält för att uppdatera uppgiften med validering -->
+                <input
+                    [(ngModel)]="editTask"
+                    name="editTask"
+                    placeholder="Uppdatera uppgift"
+                    required
+                    minlength="1"
+                    #editTaskInput="ngModel"
+                />
                 <!-- dropdown för att välja prioritet -->
-                <select [(ngModel)]="editPriority" name="editPriority">
+                <select
+                    [(ngModel)]="editPriority"
+                    name="editPriority"
+                    required
+                    #editPriorityInput="ngModel"
+                >
                     <option [value]="1">1 (Hög)</option>
                     <option [value]="2">2 (Medium)</option>
                     <option [value]="3">3 (Låg)</option>
                 </select>
                 <!-- knapp för att spara redigerade uppgifter -->
-                <button (click)="saveEdit()">💾</button>
+                <button
+                    (click)="saveEdit()"
+                    [disabled]="editTaskInput.invalid || editPriorityInput.invalid"
+                >
+                    💾
+                </button>
                 <!-- knapp för att avbryta redigering -->
                 <button (click)="cancelEdit()">❌</button>
+                <!-- valideringsmeddelande för redigering -->
+                <div *ngIf="editTaskInput.invalid && editTaskInput.touched" class="error-message">
+                    Uppgiften får inte vara tom.
+                </div>
             </div>
 
             <!-- Om inte under redigering, visa uppgiften normalt -->

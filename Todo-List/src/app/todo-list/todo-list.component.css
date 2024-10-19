@@ -1,160 +1,294 @@
-* Bakgrundsfärger och typsnitt */
+/* Bakgrundsfärger och typsnitt */
 body {
-    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-    font-family: 'Roboto', sans-serif;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  font-family: "Roboto", sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+}
+
+/* Container för todo-listan */
+.container {
+  max-width: 600px;
+  margin: 50px auto;
+  background-color: #81d747dd;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Rubrik */
+h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+  font-size: 2.5em;
+}
+
+/* Formulärstil */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+form input[type="text"] {
+  flex: 1 1 100%;
+  margin: 5px 0;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #2196f3;
+  outline: none;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+form input[type="text"]:focus {
+  border-bottom-color: #e91e63;
+}
+
+form select {
+  flex: 1 1 100%;
+  margin: 5px 0;
+  padding: 10px;
+  border: none;
+  border-bottom: 2px solid #2196f3;
+  outline: none;
+  font-size: 1em;
+  background: transparent;
+  transition: border-color 0.3s;
+}
+
+form select:focus {
+  border-bottom-color: #e91e63;
+}
+
+form button {
+  flex: 0 0 auto;
+  margin: 5px 0 5px 10px;
+  padding: 10px 20px;
+  background: linear-gradient(45deg, #2196f3, #e91e63);
+  border: none;
+  border-radius: 50px;
+  color: #fff;
+  font-size: 1em;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+form button:hover {
+  transform: scale(1.1);
+}
+
+/* Felmeddelande */
+.error-message {
+  color: #e91e63;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Stil för framgångsmeddelanden */
+.success-message {
+  color: #4caf50;
+  text-align: center;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+/* Lägg till röd kant på ogiltiga fält */
+input.ng-invalid.ng-touched,
+select.ng-invalid.ng-touched {
+  border-bottom-color: #e91e63;
+}
+
+/* Felmeddelanden */
+.error-message {
+  color: #e91e63;
+  margin-top: 5px;
+  font-size: 0.9em;
+}
+
+/* Lista över todos */
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+ul li {
+  background-color: #fff;
+  margin-bottom: 15px;
+  padding: 15px 20px;
+  border-radius: 50px;
+  display: flex;
+  align-items: center;
+  transition: transform 0.3s, background-color 0.3s;
+}
+
+ul li:hover {
+  transform: translateX(10px);
+  background-color: #f1f1f1;
+}
+
+/* Checkbox-stil */
+ul li input[type="checkbox"] {
+  margin-right: 15px;
+  width: 20px;
+  height: 20px;
+  accent-color: #2196f3;
+  cursor: pointer;
+}
+
+/* Uppgiftstext */
+ul li span {
+  flex: 1;
+  font-size: 1.2em;
+  color: #333;
+}
+
+/* Prioritetsindikator */
+ul li .priority {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-left: 15px;
+}
+
+ul li .priority.high {
+  background-color: #e91e63; /* Röd för hög prioritet */
+  box-shadow: 0 0 5px rgba(233, 30, 99, 0.5);
+}
+
+ul li .priority.medium {
+  background-color: #ff9800; /* Orange för medium prioritet */
+  box-shadow: 0 0 5px rgba(255, 152, 0, 0.5);
+}
+
+ul li .priority.low {
+  background-color: #4caf50; /* Grön för låg prioritet */
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+/* Animationer */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+ul li {
+  animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+    height: auto;
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px);
+    height: 0;
     margin: 0;
     padding: 0;
   }
-  
-  /* Container för todo-listan */
+}
+
+/* Använd animationerna i listan */
+ul li {
+  animation: slideIn 0.3s ease-out;
+  position: relative;
+}
+
+ul li.removing {
+  animation: slideOut 0.3s forwards;
+}
+/* Knappar i listan */
+ul li button {
+  /* ... befintlig stil ... */
+  transition: color 0.3s, transform 0.2s;
+}
+
+ul li button:hover {
+  color: #e91e63;
+  transform: scale(1.2);
+}
+
+/* Media queries för responsiv design */
+@media (max-width: 600px) {
+  body {
+    font-size: 14px;
+  }
+
   .container {
-    max-width: 600px;
-    margin: 50px auto;
-    background-color: #81d747dd;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    margin: 20px;
+    padding: 15px;
   }
-  
-  /* Rubrik */
+
   h1 {
-    text-align: center;
-    color: #333;
-    margin-bottom: 30px;
-    font-size: 2.5em;
+    font-size: 1.8em;
   }
-  
-  /* Formulärstil */
+
+  /* Formuläranpassningar för mobil */
   form {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 20px;
+    flex-direction: column;
   }
-  
-  form input[type='text'] {
-    flex: 1;
-    padding: 10px;
-    border: none;
-    border-bottom: 2px solid #2196f3;
-    outline: none;
-    font-size: 1em;
-    transition: border-color 0.3s;
-  }
-  
-  form input[type='text']:focus {
-    border-bottom-color: #e91e63;
-  }
-  
-  form select {
-    margin-left: 10px;
-    padding: 10px;
-    border: none;
-    border-bottom: 2px solid #2196f3;
-    outline: none;
-    font-size: 1em;
-    background: transparent;
-    transition: border-color 0.3s;
-  }
-  
-  form select:focus {
-    border-bottom-color: #e91e63;
-  }
-  
+
+  form input[type="text"],
+  form select,
   form button {
-    margin-left: 10px;
-    padding: 10px 20px;
-    background: linear-gradient(45deg, #2196f3, #e91e63);
-    border: none;
-    border-radius: 50px;
-    color: #fff;
-    font-size: 1em;
-    cursor: pointer;
-    transition: transform 0.3s;
+    flex: 1 1 100%;
+    margin: 5px 0;
   }
-  
-  form button:hover {
-    transform: scale(1.1);
-  }
-  
-  /* Felmeddelande */
-  .error-message {
-    color: #e91e63;
-    text-align: center;
-    margin-bottom: 20px;
-  }
-  
-  /* Lista över todos */
-  ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
-  
+
+  /* Listanpassningar för mobil */
   ul li {
-    background-color: #fff;
-    margin-bottom: 15px;
-    padding: 15px 20px;
-    border-radius: 50px;
-    display: flex;
-    align-items: center;
-    transition: transform 0.3s, background-color 0.3s;
+    flex-direction: column;
+    align-items: flex-start;
   }
-  
-  ul li:hover {
-    transform: translateX(10px);
-    background-color: #f1f1f1;
+
+  ul li button {
+    margin-left: 0;
+    margin-top: 5px;
   }
-  
-  /* Checkbox-stil */
-  ul li input[type='checkbox'] {
-    margin-right: 15px;
-    width: 20px;
-    height: 20px;
-    accent-color: #2196f3;
-    cursor: pointer;
-  }
-  
-  /* Uppgiftstext */
+
   ul li span {
-    flex: 1;
-    font-size: 1.2em;
-    color: #333;
+    font-size: 1em;
   }
-  
-  /* Prioritetsindikator */
-  ul li .priority {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-left: 15px;
+
+  form button {
+    font-size: 1em;
   }
-  
-  ul li .priority.high {
-    background-color: #e91e63;
-  }
-  
-  ul li .priority.medium {
-    background-color: #ff9800;
-  }
-  
-  ul li .priority.low {
-    background-color: #8bc34a;
-  }
-  
-  /* Animationer */
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(-20px);
-    }
-  
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  ul li {
-    animation: fadeIn 0.5s ease-in-out;
-  }
+}
+
+/* Stil för överstrukna (färdiga) uppgifter */
+.completed {
+  text-decoration: line-through;
+  color: #888;
+  font-style: italic;
+}
+
+/* Hover-effekt för prioritetsmarkeringar */
+ul li:hover .priority {
+  transform: scale(1.2);
+  transition: transform 0.2s ease;
+}

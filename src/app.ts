@@ -3,6 +3,19 @@ import { TodoList } from './services/TodoList.js';
 
 const todoListInstance = new TodoList();
 
+// Visar meddelanden till användaren
+function showMessage(message: string, type: 'success' | 'error'): void {
+    const errorDiv = document.getElementById('error') as HTMLDivElement;
+    errorDiv.textContent = message;
+    errorDiv.className = type; // Lägg till CSS-klass för styling
+    
+    // Rensa meddelandet efter 3 sekunder
+    setTimeout(() => {
+        errorDiv.textContent = '';
+        errorDiv.className = '';
+    }, 3000);
+}
+
 // Formatterar ett datum i svensk format
 function formatDate(isoString: string): string {
     const date = new Date(isoString);
@@ -53,8 +66,11 @@ function displayTodos(): void {
         completeButton.dataset.index = index.toString();
         completeButton.addEventListener('click', () => {
             const idx = parseInt(completeButton.dataset.index!);
-            todoListInstance.markTodoCompleted(idx);
-            displayTodos();
+            if (!todoListInstance.getTodos()[idx].completed) {
+                todoListInstance.markTodoCompleted(idx);
+                showMessage('Uppgift markerad som klar!', 'success');
+                displayTodos();
+            }
         });
         actionButtons.appendChild(completeButton);
 
@@ -72,8 +88,11 @@ function displayTodos(): void {
         deleteButton.dataset.index = index.toString();
         deleteButton.addEventListener('click', () => {
             const idx = parseInt(deleteButton.dataset.index!);
-            todoListInstance.deleteTodo(idx);
-            displayTodos();
+            if (confirm('Är du säker på att du vill radera denna uppgift?')) {
+                todoListInstance.deleteTodo(idx);
+                showMessage('Uppgift raderad!', 'success');
+                displayTodos();
+            }
         });
         actionButtons.appendChild(deleteButton);
 
@@ -96,16 +115,27 @@ function openEditModal(index: number): void {
 
     editForm.onsubmit = (event: Event) => {
         event.preventDefault();
-        const newTask = editTaskInput.value;
+        const newTask = editTaskInput.value.trim();
         const newPriority = parseInt(editPriorityInput.value);
+        
+        // Tydligare validering och felmeddelanden
+        if (!newTask) {
+            showMessage('Uppgiftstexten får inte vara tom!', 'error');
+            return;
+        }
+        
+        if (isNaN(newPriority) || newPriority < 1 || newPriority > 3) {
+            showMessage('Prioritet måste vara ett nummer mellan 1 och 3!', 'error');
+            return;
+        }
+        
         const success = todoListInstance.editTodo(index, newTask, newPriority);
-        const errorDiv = document.getElementById('error') as HTMLDivElement;
         if (success) {
             displayTodos();
             modal.style.display = 'none';
-            errorDiv.textContent = '';
+            showMessage('Uppgift uppdaterad!', 'success');
         } else {
-            errorDiv.textContent = 'Felaktig inmatning. Kontrollera att uppgiften inte är tom och att prioriteten är mellan 1 och 3.';
+            showMessage('Något gick fel vid uppdatering av uppgiften.', 'error');
         }
     };
 
@@ -124,17 +154,28 @@ function setupForm(): void {
         event.preventDefault();
         const taskInput = document.getElementById('task') as HTMLInputElement;
         const priorityInput = document.getElementById('priority') as HTMLInputElement;
-        const task = taskInput.value;
+        const task = taskInput.value.trim();
         const priority = parseInt(priorityInput.value);
+        
+        // Tydligare validering och felmeddelanden
+        if (!task) {
+            showMessage('Du måste skriva en uppgift!', 'error');
+            return;
+        }
+        
+        if (isNaN(priority) || priority < 1 || priority > 3) {
+            showMessage('Prioritet måste vara ett nummer mellan 1 och 3!', 'error');
+            return;
+        }
+        
         const success = todoListInstance.addTodo(task, priority);
-        const errorDiv = document.getElementById('error') as HTMLDivElement;
         if (success) {
             displayTodos();
             taskInput.value = '';
             priorityInput.value = '';
-            errorDiv.textContent = '';
+            showMessage('Ny uppgift tillagd!', 'success');
         } else {
-            errorDiv.textContent = 'Felaktig inmatning. Kontrollera att uppgiften inte är tom och att prioriteten är mellan 1 och 3.';
+            showMessage('Något gick fel vid tillägg av uppgiften.', 'error');
         }
     });
 }

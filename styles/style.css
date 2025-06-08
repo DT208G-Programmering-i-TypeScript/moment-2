@@ -103,6 +103,24 @@ button:hover {
     margin-top: 0.5rem;
     font-size: 0.9rem;
     text-shadow: 0 0 5px var(--neon-pink);
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 5px;
+    min-height: 1.5rem;
+}
+
+#error.success {
+    color: #00ff88;
+    background: rgba(0, 255, 136, 0.1);
+    border: 1px solid #00ff88;
+    text-shadow: 0 0 5px #00ff88;
+}
+
+#error.error {
+    color: var(--neon-pink);
+    background: rgba(255, 0, 255, 0.1);
+    border: 1px solid var(--neon-pink);
+    text-shadow: 0 0 5px var(--neon-pink);
 }
 
 #todo-list-section {

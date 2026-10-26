@@ -2,6 +2,10 @@
 
 En modern och responsiv todo-applikation byggd med TypeScript, HTML och CSS. Applikationen använder objektorienterad programmering och LocalStorage för datalagring.
 
+## Publicerad webbplats
+
+https://mom-2-todo-listalt.netlify.app/
+
 ## 🚀 Funktioner
 
 - ✅ Lägg till nya uppgifter med prioritering (1-3)
@@ -182,4 +186,4 @@ console.log(allTodos);
 
 ---
 
-*Byggd med ❤️ som en del av kursen DT208G - Programmering i TypeScript* 
+*Byggd med ❤️ som en del av kursen DT208G - Programmering i TypeScript*
